@@ -13,7 +13,7 @@ namespace Chip8.Internal.Services
 {
     public class DefaultCommandRegistry : ICommandRegistry
     {
-        private IReadOnlyList<CpuCommandDefenition> _cpuCommandDefenitions = Enumerable.Empty<CpuCommandDefenition>().ToList();
+        private IReadOnlyList<CpuCommandDefinition> _cpuCommandDefenitions = Enumerable.Empty<CpuCommandDefinition>().ToList();
 
         public void DiscoverLoadedCommands()
         {
@@ -27,7 +27,7 @@ namespace Chip8.Internal.Services
             _cpuCommandDefenitions = loadedCommands;
         }
 
-        public IEnumerable<CpuCommandDefenition> GetAvailableCommands()
+        public IEnumerable<CpuCommandDefinition> GetAvailableCommands()
         {
             return _cpuCommandDefenitions;
         }
@@ -42,21 +42,24 @@ namespace Chip8.Internal.Services
             return property.GetCustomAttributes(typeof(CommandParameterAttribute), true).Any();
         }
 
-        private CpuCommandDefenition MapCommandModelTypeToCpuCommandDefenition(Type type)
+        private CpuCommandDefinition MapCommandModelTypeToCpuCommandDefenition(Type type)
         {
             var commandDefenition =
                 type.GetCustomAttribute(typeof(CommandModelAttribute), true) as CommandModelAttribute
                 ?? throw new ArgumentException("Invalid command model");
 
             var compiledPattern = int.Parse(commandDefenition.Pattern.Replace("*", "0"), System.Globalization.NumberStyles.HexNumber);
+            var compiledMask = int.Parse(
+                new string(commandDefenition.Pattern.Select(c => c == '*' ? '0' : 'F').ToArray()),
+                System.Globalization.NumberStyles.HexNumber);
             var cpuParameters = DiscoverCpuParameters(type);
 
             ValidateCpuCommandParameterDefenitions(cpuParameters, type, commandDefenition.Pattern);
 
-            return new CpuCommandDefenition(compiledPattern, commandDefenition.OpcodeName, cpuParameters, type);
+            return new CpuCommandDefinition(compiledPattern, commandDefenition.OpcodeName, cpuParameters, type, compiledMask);
         }
 
-        private IEnumerable<CpuCommandParameterDefenition> DiscoverCpuParameters(Type type)
+        private IEnumerable<CpuCommandParameterDefinition> DiscoverCpuParameters(Type type)
         {
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.CanWrite && p.CanRead && IsCommandParameter(p))
@@ -64,17 +67,17 @@ namespace Chip8.Internal.Services
                 .ToList();
         }
 
-        private CpuCommandParameterDefenition MapPropertyToCpuCommandParameterDefenition(PropertyInfo property)
+        private CpuCommandParameterDefinition MapPropertyToCpuCommandParameterDefenition(PropertyInfo property)
         {
             var commandDefenition =
                 property.GetCustomAttribute(typeof(CommandParameterAttribute), true) as CommandParameterAttribute
                 ?? throw new ArgumentException("Invalid parameter property");
 
             var compiledMask = (int)(Math.Pow(2, commandDefenition.NibblesCount * 4) - 1) << commandDefenition.NibbleIndex * 4;
-            return new CpuCommandParameterDefenition(property.Name, commandDefenition.Code, compiledMask, commandDefenition.NibbleIndex);
+            return new CpuCommandParameterDefinition(property.Name, commandDefenition.Code, compiledMask, commandDefenition.NibbleIndex);
         }
 
-        private void ValidateCpuCommandParameterDefenitions(IEnumerable<CpuCommandParameterDefenition> parameterDefenitions, Type commandModelType, string commandPattern)
+        private void ValidateCpuCommandParameterDefenitions(IEnumerable<CpuCommandParameterDefinition> parameterDefenitions, Type commandModelType, string commandPattern)
         {
             var multiplication = parameterDefenitions.Select(pd => pd.CompiledMask).Aggregate(0xFFFF, (x, y) => x & y);
             var anyMasksIntersect = multiplication != 0 && parameterDefenitions.Count() > 1;
@@ -95,7 +98,7 @@ namespace Chip8.Internal.Services
             }
         }
 
-        private int CompareCommandsSpecificity(CpuCommandDefenition x, CpuCommandDefenition y)
+        private int CompareCommandsSpecificity(CpuCommandDefinition x, CpuCommandDefinition y)
         {
             if (IsOpcodeMatch(y.CompiledPattern, x))
             {
@@ -110,9 +113,9 @@ namespace Chip8.Internal.Services
             return 0;
         }
 
-        private bool IsOpcodeMatch(int opcode, CpuCommandDefenition cpuCommandDefenition)
+        private bool IsOpcodeMatch(int opcode, CpuCommandDefinition cpuCommandDefenition)
         {
-            return (opcode & cpuCommandDefenition.CompiledPattern) == cpuCommandDefenition.CompiledPattern;
+            return (opcode & cpuCommandDefenition.CompiledMask) == cpuCommandDefenition.CompiledPattern;
         }
     }
 }

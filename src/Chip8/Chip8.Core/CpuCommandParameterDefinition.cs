@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Chip8.Core
 {
-    public class CpuCommandParameterDefenition
+    public class CpuCommandParameterDefinition
     {
         public string PropertyName { get; }
         public string Code { get; }
         public int CompiledMask { get; }
         public int NibbleIndex { get; }
 
-        public CpuCommandParameterDefenition(string propertyName, string code, int compiledMask, int nibbleIndex)
+        public CpuCommandParameterDefinition(string propertyName, string code, int compiledMask, int nibbleIndex)
         {
             PropertyName = propertyName;
             Code = code;

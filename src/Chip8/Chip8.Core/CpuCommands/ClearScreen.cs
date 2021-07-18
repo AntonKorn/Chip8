@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Core.CpuCommands
 {
-    [CommandModel("00EE", "CLS")]
+    [CommandModel("00E0", "CLS")]
     public class ClearScreen
     {
     }

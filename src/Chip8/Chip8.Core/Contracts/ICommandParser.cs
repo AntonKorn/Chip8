@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chip8.Core.Contracts
 {
-    public interface ICommandRegistry
+    public interface ICommandParser
     {
-        IEnumerable<CpuCommandDefinition> GetAvailableCommands();
-        void DiscoverLoadedCommands();
+        void Initialzie();
+        ParsedCommand ParseCommand(int command);
     }
 }
