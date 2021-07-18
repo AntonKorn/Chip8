@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chip8.Core.CpuCommands
 {
-    [CommandModel("1***", "JP")]
-    public class Jump
+    [CommandModel("2***", "CALL")]
+    public class Call
     {
         [CommandParameter("addr", 0, 3)]
         public int Address { get; set; }

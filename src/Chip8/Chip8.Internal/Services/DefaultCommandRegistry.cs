@@ -70,13 +70,13 @@ namespace Chip8.Internal.Services
                 property.GetCustomAttribute(typeof(CommandParameterAttribute), true) as CommandParameterAttribute
                 ?? throw new ArgumentException("Invalid parameter property");
 
-            var compiledMask = (int)(Math.Pow(2, commandDefenition.NibblesCount * 4) - 1) << commandDefenition.NibbleIndex;
+            var compiledMask = (int)(Math.Pow(2, commandDefenition.NibblesCount * 4) - 1) << commandDefenition.NibbleIndex * 4;
             return new CpuCommandParameterDefenition(property.Name, commandDefenition.Code, compiledMask, commandDefenition.NibbleIndex);
         }
 
         private void ValidateCpuCommandParameterDefenitions(IEnumerable<CpuCommandParameterDefenition> parameterDefenitions, Type commandModelType, string commandPattern)
         {
-            var multiplication = parameterDefenitions.Select(pd => pd.CompiledMask).Aggregate((x, y) => x & y);
+            var multiplication = parameterDefenitions.Select(pd => pd.CompiledMask).Aggregate(0xFFFF, (x, y) => x & y);
             var anyMasksIntersect = multiplication != 0 && parameterDefenitions.Count() > 1;
 
             if (anyMasksIntersect)
@@ -86,8 +86,8 @@ namespace Chip8.Internal.Services
 
             var parametersSectionMaskString = new string(commandPattern.Select(c => c != '*' ? '0' : 'F').ToArray());
             var parametersSectionMask = int.Parse(parametersSectionMaskString, System.Globalization.NumberStyles.HexNumber);
-            var addition = parameterDefenitions.Select(pd => pd.CompiledMask).Aggregate((x, y) => x | y);
-            var isCommandPatternMatchParametersPatterns = (addition & parametersSectionMask) == parametersSectionMask;
+            var addition = parameterDefenitions.Select(pd => pd.CompiledMask).Aggregate(0x0000, (x, y) => x | y);
+            var isCommandPatternMatchParametersPatterns = (addition & parametersSectionMask) == addition;
 
             if (!isCommandPatternMatchParametersPatterns)
             {

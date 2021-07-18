@@ -28,11 +28,21 @@ namespace Chip8.Tests
         }
 
         [Test]
-        public void CommandParametersShouldBeCompiledCorrectly()
+        public void SimpleCommandParametersShouldBeCompiledCorrectly()
         {
             var sysCommand = _commandRegistry.GetAvailableCommands().Where(c => c.OpcodeName == "SYS").First();
             var parameter = sysCommand.Parameters.First();
             Assert.AreEqual(parameter.CompiledMask, 0x0fff);
+        }
+
+        [Test]
+        public void MultipleCommandParametersShouldBeCompiledCorrectly()
+        {
+            var skipEqualsCommand = _commandRegistry.GetAvailableCommands().Where(c => c.OpcodeName == "SE").First();
+            var register = skipEqualsCommand.Parameters.Where(p => p.Code == "Vx").First();
+            var @byte = skipEqualsCommand.Parameters.Where(p => p.Code == "byte").First();
+            Assert.AreEqual(register.CompiledMask, 0x0F00);
+            Assert.AreEqual(@byte.CompiledMask, 0x00FF);
         }
     }
 }
