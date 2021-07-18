@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chip8.Core\Chip8.Core.csproj" />
+    <ProjectReference Include="..\Chip8.Internal\Chip8.Internal.csproj" />
   </ItemGroup>
 
 </Project>

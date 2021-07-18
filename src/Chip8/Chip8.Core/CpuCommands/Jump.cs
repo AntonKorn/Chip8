@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chip8.Internal.CpuCommands
+namespace Chip8.Core.CpuCommands
 {
-    [Command("0***", "SYS")]
+    [CommandModel("0***", "SYS")]
     public class Jump
     {
         [CommandParameter("addr", 0, 3)]

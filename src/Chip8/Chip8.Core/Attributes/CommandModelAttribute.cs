@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Chip8.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class CommandAttribute : Attribute
+    public class CommandModelAttribute : Attribute, ICommandModel
     {
         public string Pattern { get; }
         public string OpcodeName { get; }
 
-        public CommandAttribute(string pattern, string opcodeName)
+        public CommandModelAttribute(string pattern, string opcodeName)
         {
             Pattern = pattern;
             OpcodeName = opcodeName;

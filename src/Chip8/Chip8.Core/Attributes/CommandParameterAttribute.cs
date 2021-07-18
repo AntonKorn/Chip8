@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Chip8.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class CommandParameterAttribute : Attribute
+    public class CommandParameterAttribute : Attribute, ICommandParameterModel
     {
         public string Code { get; }
 
