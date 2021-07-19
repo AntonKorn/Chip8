@@ -12,5 +12,8 @@ namespace Chip8.Core.Exceptions
         {
         }
 
+        public CommandParseException(string? message, Exception exception) : base(message, exception)
+        {
+        }
     }
 }

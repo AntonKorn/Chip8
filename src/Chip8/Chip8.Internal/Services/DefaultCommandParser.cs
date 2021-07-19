@@ -44,8 +44,16 @@ namespace Chip8.Internal.Services
                 throw new CommandParseException("Unable to parse command");
             }
 
-            var parameters = ParseParameters(command, commandDefintion.Parameters);
-            return new ParsedCommand(commandDefintion, parameters);
+            try
+            {
+                var parameters = ParseParameters(command, commandDefintion.Parameters);
+                return new ParsedCommand(commandDefintion, parameters);
+            }
+            catch (Exception e)
+            {
+                throw new CommandParseException("Failed to parse command", e);
+            }
+            
         }
 
         private bool IsMatch(int command, CpuCommandDefinition commandDefinition)
