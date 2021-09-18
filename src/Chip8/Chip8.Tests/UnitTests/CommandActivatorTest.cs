@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chip8.Tests
+namespace Chip8.Tests.UnitTests
 {
     public class CommandActivatorTest
     {
