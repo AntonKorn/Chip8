@@ -45,9 +45,9 @@ namespace Chip8.Tests.UnitTests
                 }
             );
             var activationResult = _commandActivator.ActivateCommandModel(parsedCommand);
+            var command = (activationResult.ActivatedModel as SkipEquals)!;
 
             Assert.AreEqual(typeof(SkipEquals), activationResult.ActivatedModel.GetType());
-            var command = (activationResult.ActivatedModel as SkipEquals)!;
             Assert.AreEqual(0x2, command.Register);
             Assert.AreEqual(0x14, command.Value);
         }
@@ -67,8 +67,9 @@ namespace Chip8.Tests.UnitTests
             );
 
             var activationResult = _commandActivator.ActivateCommandModel(parsedCommand);
-            Assert.AreEqual(typeof(Jump), activationResult.ActivatedModel.GetType());
             var command = (activationResult.ActivatedModel as Jump)!;
+
+            Assert.AreEqual(typeof(Jump), activationResult.ActivatedModel.GetType());
             Assert.AreEqual(command.Address, 0x123);
         }
 

@@ -31,11 +31,12 @@ namespace Chip8.Tests.UnitTests
         public void CommandsWithMultipleParametersShouldBeParsedCorrectly()
         {
             var parsedCommand = _commandParser.ParseCommand(0x3212);
+            var register = parsedCommand.Parameters.Where(p => p.CpuCommandParameterDefenition.Code == "Vx").First();
+            var @byte = parsedCommand.Parameters.Where(p => p.CpuCommandParameterDefenition.Code == "byte").First();
+
             Assert.AreEqual("SE", parsedCommand.CommandDefinition.OpcodeName);
             Assert.AreEqual(2, parsedCommand.Parameters.Count);
-            var register = parsedCommand.Parameters.Where(p => p.CpuCommandParameterDefenition.Code == "Vx").First();
             Assert.AreEqual(0x2, register.Value);
-            var @byte = parsedCommand.Parameters.Where(p => p.CpuCommandParameterDefenition.Code == "byte").First();
             Assert.AreEqual(0x12, @byte.Value);
         }
 
@@ -43,18 +44,20 @@ namespace Chip8.Tests.UnitTests
         public void NotSpecificCommandsWithSingleParameterShouldBeParsedCorrectly()
         {
             var parsedCommand = _commandParser.ParseCommand(0x0212);
-            Assert.AreEqual("SYS", parsedCommand.CommandDefinition.OpcodeName);
             var address = parsedCommand.Parameters.Single();
+
+            Assert.AreEqual("SYS", parsedCommand.CommandDefinition.OpcodeName);
             Assert.AreEqual(0x212, address.Value);
         }
 
         [Test]
         public void MostSpecificCommandsWithoutParametersShouldBeParsedCorrectly()
         {
-            var parsedCommand = _commandParser.ParseCommand(0x00E0);
-            Assert.AreEqual("CLS", parsedCommand.CommandDefinition.OpcodeName);
-            parsedCommand = _commandParser.ParseCommand(0x00EE);
-            Assert.AreEqual("RET", parsedCommand.CommandDefinition.OpcodeName);
+            var parsedClsCommand = _commandParser.ParseCommand(0x00E0);
+            var parsedRetCommand = _commandParser.ParseCommand(0x00EE);
+
+            Assert.AreEqual("CLS", parsedClsCommand.CommandDefinition.OpcodeName);
+            Assert.AreEqual("RET", parsedRetCommand.CommandDefinition.OpcodeName);
         }
     }
 }
