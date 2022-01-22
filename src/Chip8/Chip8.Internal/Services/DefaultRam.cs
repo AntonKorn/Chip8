@@ -17,6 +17,10 @@ namespace Chip8.Internal.Services
         private byte[] _ram = null!;
         private bool _isInitialized;
 
+        public int ExecutionOffset => _programmStartOffset;
+
+        public int ExecutionTop => _ramSize;
+
         public DefaultRam(IInternalMemoryProvider internalMemoryProvider)
         {
             _internalMemoryProvider = internalMemoryProvider ?? throw new ArgumentNullException(nameof(internalMemoryProvider));

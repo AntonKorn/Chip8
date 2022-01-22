@@ -12,7 +12,6 @@ namespace Chip8.Core.Contracts
         int SP { get; set; }
         int PC { get; set; }
         int I { get; set; }
-        bool VF { get; set; }
         int[] Stack { get; }
     }
 }

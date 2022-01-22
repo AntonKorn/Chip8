@@ -14,7 +14,6 @@ namespace Chip8.Internal.Services
         public int SP { get; set; }
         public int PC { get; set; }
         public int I { get; set; }
-        public bool VF { get; set; }
 
         public int[] Stack { get; } = new int[16];
     }

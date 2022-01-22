@@ -9,8 +9,10 @@ namespace Chip8.Core.Contracts
 {
     public interface IRam
     {
-        void Initialize(byte[] image);
+        int ExecutionOffset { get; }
+        int ExecutionTop { get; }
 
+        void Initialize(byte[] image);
         int Read(int offset, RamReadScale ramReadSize);
         int[] Read(int offset, int count, RamReadScale ramReadSize);
         ushort ReadWord(int offset);
