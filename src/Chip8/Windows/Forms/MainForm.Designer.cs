@@ -37,6 +37,8 @@ namespace Windows.Forms
             this.tsmiOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cpuStackControl = new Windows.Components.CpuStackControl();
             this.ofdRam = new System.Windows.Forms.OpenFileDialog();
+            this.btnSkipUntil = new System.Windows.Forms.Button();
+            this.tbUntil = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,7 +91,7 @@ namespace Windows.Forms
             // tsmiOpen
             // 
             this.tsmiOpen.Name = "tsmiOpen";
-            this.tsmiOpen.Size = new System.Drawing.Size(270, 34);
+            this.tsmiOpen.Size = new System.Drawing.Size(158, 34);
             this.tsmiOpen.Text = "Open";
             this.tsmiOpen.Click += new System.EventHandler(this.tsmiOpen_Click);
             // 
@@ -104,11 +106,30 @@ namespace Windows.Forms
             // 
             this.ofdRam.FileName = "openFileDialog1";
             // 
+            // btnSkipUntil
+            // 
+            this.btnSkipUntil.Location = new System.Drawing.Point(192, 52);
+            this.btnSkipUntil.Name = "btnSkipUntil";
+            this.btnSkipUntil.Size = new System.Drawing.Size(112, 34);
+            this.btnSkipUntil.TabIndex = 5;
+            this.btnSkipUntil.Text = "Skip Until";
+            this.btnSkipUntil.UseVisualStyleBackColor = true;
+            this.btnSkipUntil.Click += new System.EventHandler(this.btnSkipUntil_Click);
+            // 
+            // tbUntil
+            // 
+            this.tbUntil.Location = new System.Drawing.Point(310, 54);
+            this.tbUntil.Name = "tbUntil";
+            this.tbUntil.Size = new System.Drawing.Size(150, 31);
+            this.tbUntil.TabIndex = 6;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1709, 803);
+            this.Controls.Add(this.tbUntil);
+            this.Controls.Add(this.btnSkipUntil);
             this.Controls.Add(this.cpuStackControl);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.cpuRegistersControl);
@@ -133,6 +154,8 @@ namespace Windows.Forms
         private System.Windows.Forms.ToolStripMenuItem tsmiOpen;
         private Components.CpuStackControl cpuStackControl;
         private System.Windows.Forms.OpenFileDialog ofdRam;
+        private System.Windows.Forms.Button btnSkipUntil;
+        private System.Windows.Forms.TextBox tbUntil;
     }
 }
 

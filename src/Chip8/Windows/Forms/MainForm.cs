@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +18,8 @@ namespace Windows.Forms
     public partial class MainForm : Form
     {
         private EmulatorContext _emulatorContext;
+        private Thread _thread;
+        private int _until;
 
         public MainForm()
         {
@@ -54,6 +58,23 @@ namespace Windows.Forms
             emulatorDisplayControl.Redraw();
             cpuRegistersControl.UpdateGrid();
             cpuStackControl.UpdateGrid();
+        }
+
+        private void btnSkipUntil_Click(object sender, EventArgs e)
+        {
+            _until = int.Parse(tbUntil.Text, NumberStyles.HexNumber);
+            _thread = new Thread(Run);
+            _thread.Start();
+        }
+
+        private void Run()
+        {
+            while(_emulatorContext.Cpu.PC != _until)
+            {
+                _emulatorContext.Manager.TryExecuteNext();
+                Invoke((Action)(() => emulatorDisplayControl.Redraw()));
+                Thread.Sleep(6);
+            }
         }
     }
 }
