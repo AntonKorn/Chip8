@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chip8.Tests", "Chip8.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chip8.Internal", "Chip8.Internal\Chip8.Internal.csproj", "{D9A5AFE3-2BFF-452B-829B-E28929B0EEAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows", "Windows\Windows.csproj", "{47A39ACA-F88B-4A1B-B6C5-33ACAC9E9E2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D9A5AFE3-2BFF-452B-829B-E28929B0EEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A5AFE3-2BFF-452B-829B-E28929B0EEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A5AFE3-2BFF-452B-829B-E28929B0EEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A39ACA-F88B-4A1B-B6C5-33ACAC9E9E2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A39ACA-F88B-4A1B-B6C5-33ACAC9E9E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A39ACA-F88B-4A1B-B6C5-33ACAC9E9E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A39ACA-F88B-4A1B-B6C5-33ACAC9E9E2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
