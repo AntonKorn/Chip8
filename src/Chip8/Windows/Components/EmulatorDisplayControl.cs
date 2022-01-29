@@ -50,8 +50,8 @@ namespace Windows.Components
                 var emulatorHeight = GraphicalDeviceState.GetScreenHeight();
                 var emulatorWidth = GraphicalDeviceState.GetScreenWidth();
 
-                var pixelWidth = 0.1F * Width / emulatorWidth;
-                var pixelHeight = 0.1F * Height / emulatorHeight;
+                var pixelWidth = 1F * Width / emulatorWidth;
+                var pixelHeight = 1F * Height / emulatorHeight;
 
                 for (var column = 0; column < emulatorWidth; column++)
                 {

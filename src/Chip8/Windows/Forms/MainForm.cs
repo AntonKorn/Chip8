@@ -28,8 +28,8 @@ namespace Windows.Forms
             {
                 0xF0, 0x80, 0xF0, 0x80, 0xF0
             };
-            _emulatorContext.GraphicalDevice.DrawSprite(new DrawSpriteCommand(10, 10, letter.Select(i => (int)i).ToArray()));
-            emulatorDisplayControl.Invalidate();
+            _emulatorContext.GraphicalDevice.DrawSprite(new DrawSpriteCommand(10, 20, letter.Select(i => (int)i).ToArray()));
+            emulatorDisplayControl.Redraw();
         }
     }
 }
