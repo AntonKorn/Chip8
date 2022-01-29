@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Core.CpuCommandExecutors
 {
-    public class AddInlineExecutor : BaseExecutor<AddInline>
+    public class AddInlineCommandExecutor : BaseExecutor<AddInline>
     {
         public override void ExecuteCommand(AddInline command, ExecutionContext context)
         {
