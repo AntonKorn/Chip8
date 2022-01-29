@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Tests.IntegrationTests
 {
-    public class EmulatorManagerRegistersTest
+    public class EmulatorManagerProceduresTest
     {
         private EmulatorContext _emulatorContext = null!;
         private IEmulatorFactory _emulatorFactory = new DefaultEmulatorFactory();

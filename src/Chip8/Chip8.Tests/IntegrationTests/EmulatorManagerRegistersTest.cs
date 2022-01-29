@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Tests.IntegrationTests
 {
-    public class EmulatorManagerProceduresTest
+    public class EmulatorManagerRegistersTest
     {
         private EmulatorContext _emulatorContext = null!;
         private IEmulatorFactory _emulatorFactory = new DefaultEmulatorFactory();
@@ -46,6 +46,23 @@ namespace Chip8.Tests.IntegrationTests
             _emulatorContext.Manager.TryExecuteNext();
 
             Assert.AreEqual(0x19, _emulatorContext.Cpu.Registers[0xA]);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+        }
+
+        [TestCase(0x10)]
+        [TestCase(0x70)]
+        [TestCase(0xFF)]
+        public void LoadRandomValueIntoRegisterCommandShouldRespectMask(byte mask)
+        {
+            var registerNumber = 1;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0xC1,
+                mask
+            });
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(_emulatorContext.Cpu.Registers[registerNumber], _emulatorContext.Cpu.Registers[registerNumber] & mask);
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
     }
