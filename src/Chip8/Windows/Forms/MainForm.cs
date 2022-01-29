@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,13 +24,36 @@ namespace Windows.Forms
             _emulatorContext = new DefaultEmulatorFactory().CreateEmulatorInstance();
             _emulatorContext.Initialize();
             emulatorDisplayControl.GraphicalDeviceState = _emulatorContext.GraphicalDevice;
+            cpuStackControl.Init(_emulatorContext.Cpu);
+            cpuRegistersControl.Init(_emulatorContext.Cpu);
 
-            var letter = new byte[]
+            cpuRegistersControl.UpdateGrid();
+            cpuStackControl.UpdateGrid();
+
+            //var letter = new byte[]
+            //{
+            //    0xF0, 0x80, 0xF0, 0x80, 0xF0
+            //};
+            //_emulatorContext.GraphicalDevice.DrawSprite(new DrawSpriteCommand(10, 20, letter.Select(i => (int)i).ToArray()));
+            //emulatorDisplayControl.Redraw();
+        }
+
+        private void tsmiOpen_Click(object sender, EventArgs e)
+        {
+            if (ofdRam.ShowDialog() == DialogResult.OK)
             {
-                0xF0, 0x80, 0xF0, 0x80, 0xF0
-            };
-            _emulatorContext.GraphicalDevice.DrawSprite(new DrawSpriteCommand(10, 20, letter.Select(i => (int)i).ToArray()));
+                var ramFile = ofdRam.FileName;
+                var cotents = File.ReadAllBytes(ramFile);
+                _emulatorContext.Manager.LoadRom(cotents);
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            _emulatorContext.Manager.TryExecuteNext();
             emulatorDisplayControl.Redraw();
+            cpuRegistersControl.UpdateGrid();
+            cpuStackControl.UpdateGrid();
         }
     }
 }

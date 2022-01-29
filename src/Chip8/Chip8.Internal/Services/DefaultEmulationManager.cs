@@ -57,6 +57,10 @@ namespace Chip8.Internal.Services
                 var context = CreateContext(activationResult.ParsedCommand);
                 executor.ExecuteCommand(activationResult.ActivatedModel, context);
             }
+            catch(ChipRuntimeException)
+            {
+                throw;
+            }
             catch(Exception e)
             {
                 throw new EmulatorManagerException("Unexpected exception ocurred", e);

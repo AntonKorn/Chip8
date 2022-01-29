@@ -31,7 +31,7 @@ namespace Windows.Components
         {
             for (var i = 0; i < _cpu.Stack.Length; i++)
             {
-                dgvStack.Rows[i].Cells[1].Value = _cpu.Stack[i].ToString();
+                dgvStack.Rows[i].Cells[1].Value = _cpu.Stack[i].ToString("X");
             }
         }
 

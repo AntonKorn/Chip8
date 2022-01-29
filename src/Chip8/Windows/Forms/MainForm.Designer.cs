@@ -36,6 +36,7 @@ namespace Windows.Forms
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cpuStackControl = new Windows.Components.CpuStackControl();
+            this.ofdRam = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +65,7 @@ namespace Windows.Forms
             this.btnNext.TabIndex = 2;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // menuStrip1
             // 
@@ -87,8 +89,9 @@ namespace Windows.Forms
             // tsmiOpen
             // 
             this.tsmiOpen.Name = "tsmiOpen";
-            this.tsmiOpen.Size = new System.Drawing.Size(158, 34);
+            this.tsmiOpen.Size = new System.Drawing.Size(270, 34);
             this.tsmiOpen.Text = "Open";
+            this.tsmiOpen.Click += new System.EventHandler(this.tsmiOpen_Click);
             // 
             // cpuStackControl
             // 
@@ -96,6 +99,10 @@ namespace Windows.Forms
             this.cpuStackControl.Name = "cpuStackControl";
             this.cpuStackControl.Size = new System.Drawing.Size(288, 668);
             this.cpuStackControl.TabIndex = 4;
+            // 
+            // ofdRam
+            // 
+            this.ofdRam.FileName = "openFileDialog1";
             // 
             // MainForm
             // 
@@ -125,6 +132,7 @@ namespace Windows.Forms
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpen;
         private Components.CpuStackControl cpuStackControl;
+        private System.Windows.Forms.OpenFileDialog ofdRam;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chip8.Core.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,12 +14,35 @@ namespace Windows.Components
     public partial class CpuRegistersControl : UserControl
     {
         private const int MaxCommonRegisterNumber = 0xF;
+        private const int IndexRegisterNumber = 0xF + 1;
+        private const int StackPointerRegisterNumber = 0xF + 2;
+        private const int ProgramCounterRegisterNumber = 0xF + 3;
+
+
+        private ICpu _cpu;
 
         public CpuRegistersControl()
         {
             InitializeComponent();
 
             InitCpuRegisterRows();
+        }
+
+        public void Init(ICpu cpu)
+        {
+            _cpu = cpu;
+        }
+
+        public void UpdateGrid()
+        {
+            for (var i = 0; i < _cpu.Resgisters.Length; i++)
+            {
+                dgvRegisters.Rows[i].Cells[1].Value = _cpu.Resgisters[i].ToString("X");
+            }
+
+            dgvRegisters.Rows[StackPointerRegisterNumber].Cells[1].Value = _cpu.SP.ToString("X");
+            dgvRegisters.Rows[IndexRegisterNumber].Cells[1].Value = _cpu.I.ToString("X");
+            dgvRegisters.Rows[ProgramCounterRegisterNumber].Cells[1].Value = _cpu.PC.ToString("X");
         }
 
         private void InitCpuRegisterRows()

@@ -11,8 +11,7 @@ namespace Chip8.Core.CpuCommandExecutors
     {
         public override void ExecuteCommand(Call command, ExecutionContext context)
         {
-            var sp = context.Cpu.SP++;
-            context.Cpu.Stack[sp] = context.Cpu.PC;
+            Push(context, context.Cpu.PC + 2);
             context.Cpu.PC = command.Address;
         }
     }

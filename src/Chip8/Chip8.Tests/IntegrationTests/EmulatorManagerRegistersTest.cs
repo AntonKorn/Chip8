@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Tests.IntegrationTests
 {
-    public class EmulatorManagerTest
+    public class EmulatorManagerProceduresTest
     {
         private EmulatorContext _emulatorContext = null!;
         private IEmulatorFactory _emulatorFactory = new DefaultEmulatorFactory();
@@ -22,18 +22,31 @@ namespace Chip8.Tests.IntegrationTests
         }
 
         [Test]
-        public void CallCommandShouldChangeCpuAndStack()
+        public void LoadIndexCommandShouldChangeCpu()
         {
             _emulatorContext.Manager.LoadRom(new byte[]
             {
-                0x21,
-                0x16
+                0xA2,
+                0xB4
             });
             _emulatorContext.Manager.TryExecuteNext();
 
-            Assert.AreEqual(1, _emulatorContext.Cpu.SP);
-            Assert.AreEqual(0x200, _emulatorContext.Cpu.Stack[0]);
-            Assert.AreEqual(0x116, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(0x2B4, _emulatorContext.Cpu.I);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+        }
+
+        [Test]
+        public void LoadValueIntoRegisterCommandShouldChangeCpu()
+        {
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0x6A,
+                0x19
+            });
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(0x19, _emulatorContext.Cpu.Resgisters[0xA]);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
     }
 }
