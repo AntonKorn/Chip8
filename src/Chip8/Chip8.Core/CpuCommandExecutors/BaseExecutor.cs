@@ -35,6 +35,20 @@ namespace Chip8.Core.CpuCommandExecutors
             context.Cpu.PC += 2;
         }
 
+        protected int Add(int op1, int op2, int maxValue, out bool isOverflow)
+        {
+            var result = op1 + op2;
+
+            isOverflow = false;
+            if (result > maxValue)
+            {
+                result -= maxValue + 1;
+                isOverflow = true;
+            }
+
+            return result;
+        }
+
         protected void ValidateStackPointer(ExecutionContext context)
         {
             if (context.Cpu.SP > 0xF)
