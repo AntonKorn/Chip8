@@ -35,9 +35,9 @@ namespace Windows.Components
 
         public void UpdateGrid()
         {
-            for (var i = 0; i < _cpu.Resgisters.Length; i++)
+            for (var i = 0; i < _cpu.Registers.Length; i++)
             {
-                dgvRegisters.Rows[i].Cells[1].Value = _cpu.Resgisters[i].ToString("X");
+                dgvRegisters.Rows[i].Cells[1].Value = _cpu.Registers[i].ToString("X");
             }
 
             dgvRegisters.Rows[StackPointerRegisterNumber].Cells[1].Value = _cpu.SP.ToString("X");

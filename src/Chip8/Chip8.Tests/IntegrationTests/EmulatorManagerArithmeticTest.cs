@@ -31,11 +31,11 @@ namespace Chip8.Tests.IntegrationTests
                 operand
             });
             var registerNumber = 2;
-            _emulatorContext.Cpu.Resgisters[registerNumber] = initialRegisterValue;
+            _emulatorContext.Cpu.Registers[registerNumber] = initialRegisterValue;
 
             _emulatorContext.Manager.TryExecuteNext();
 
-            Assert.AreEqual(expected, _emulatorContext.Cpu.Resgisters[registerNumber]);
+            Assert.AreEqual(expected, _emulatorContext.Cpu.Registers[registerNumber]);
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
     }

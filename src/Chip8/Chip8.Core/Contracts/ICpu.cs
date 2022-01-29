@@ -8,7 +8,7 @@ namespace Chip8.Core.Contracts
 {
     public interface ICpu
     {
-        int[] Resgisters { get; }
+        int[] Registers { get; }
         int SP { get; set; }
         int PC { get; set; }
         int I { get; set; }

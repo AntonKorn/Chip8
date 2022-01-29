@@ -12,7 +12,7 @@ namespace Chip8.Core.CpuCommandExecutors
         public override void ExecuteCommand(LoadRegister command, ExecutionContext context)
         {
             var register = command.Register;
-            context.Cpu.Resgisters[register] = command.Value;
+            context.Cpu.Registers[register] = command.Value;
             Next(context);
         }
     }

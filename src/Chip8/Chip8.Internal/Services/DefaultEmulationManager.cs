@@ -97,7 +97,7 @@ namespace Chip8.Internal.Services
             _cpu.PC = _ram.ExecutionOffset;
             _cpu.I = 0;
             _cpu.SP = 0;
-            Array.Fill(_cpu.Resgisters, 0);
+            Array.Fill(_cpu.Registers, 0);
             Array.Fill(_cpu.Stack, 0);
         }
 

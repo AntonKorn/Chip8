@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Chip8.Tests.IntegrationTests
 {
-    public class EmulatorManagerProceduresTest
+    public class EmulatorManagerGraphicsTest
     {
         private EmulatorContext _emulatorContext = null!;
         private IEmulatorFactory _emulatorFactory = new DefaultEmulatorFactory();
@@ -22,31 +22,27 @@ namespace Chip8.Tests.IntegrationTests
         }
 
         [Test]
-        public void LoadIndexCommandShouldChangeCpu()
+        public void DrawCpuCommandShouldUpdateGraphicalDeviceAndRegisters()
         {
+            var x = 3;
+            var y = 4;
             _emulatorContext.Manager.LoadRom(new byte[]
             {
-                0xA2,
-                0xB4
+                0xD1,
+                0x22,
+                0xFF,
+                0xFF
             });
+            _emulatorContext.Cpu.Registers[1] = x;
+            _emulatorContext.Cpu.Registers[2] = y;
+            _emulatorContext.Cpu.I = 0x202;
+
             _emulatorContext.Manager.TryExecuteNext();
 
-            Assert.AreEqual(0x2B4, _emulatorContext.Cpu.I);
-            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
-        }
-
-        [Test]
-        public void LoadValueIntoRegisterCommandShouldChangeCpu()
-        {
-            _emulatorContext.Manager.LoadRom(new byte[]
-            {
-                0x6A,
-                0x19
-            });
-            _emulatorContext.Manager.TryExecuteNext();
-
-            Assert.AreEqual(0x19, _emulatorContext.Cpu.Registers[0xA]);
-            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.IsTrue(_emulatorContext.GraphicalDevice.GetPixel(3, 4));
+            Assert.IsTrue(_emulatorContext.GraphicalDevice.GetPixel(4, 4));
+            Assert.IsTrue(_emulatorContext.GraphicalDevice.GetPixel(3, 5));
+            Assert.IsTrue(_emulatorContext.GraphicalDevice.GetPixel(4, 5));
         }
     }
 }

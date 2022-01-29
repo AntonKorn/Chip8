@@ -12,8 +12,8 @@ namespace Chip8.Core.CpuCommandExecutors
         public override void ExecuteCommand(AddInline command, ExecutionContext context)
         {
             var register = command.Register;
-            var oldRegisterValue = context.Cpu.Resgisters[register];
-            context.Cpu.Resgisters[register] = Add(command.Operand, oldRegisterValue, byte.MaxValue, out var _);
+            var oldRegisterValue = context.Cpu.Registers[register];
+            context.Cpu.Registers[register] = Add(command.Operand, oldRegisterValue, byte.MaxValue, out var _);
             Next(context);
         }
     }

@@ -9,7 +9,7 @@ namespace Chip8.Internal.Services
 {
     public class Cpu : ICpu
     {
-        public int[] Resgisters { get; } = new int[16];
+        public int[] Registers { get; } = new int[16];
 
         public int SP { get; set; }
         public int PC { get; set; }
