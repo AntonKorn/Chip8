@@ -23,12 +23,29 @@ namespace Chip8.Tests.IntegrationTests
 
         [TestCase(10, 10, 0x204)]
         [TestCase(10, 11, 0x202)]
-        public void SkipNextShouldUpdateCpu(int registerValue, byte value, int programCounter)
+        public void SkipEqualsShouldUpdateCpu(int registerValue, byte value, int programCounter)
         {
             var registerIndex = 1;
             _emulatorContext.Manager.LoadRom(new byte[]
             {
                 0x31,
+                value
+            });
+            _emulatorContext.Cpu.Registers[registerIndex] = registerValue;
+
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(programCounter, _emulatorContext.Cpu.PC);
+        }
+
+        [TestCase(10, 10, 0x202)]
+        [TestCase(10, 11, 0x204)]
+        public void SkipNotEqualsShouldUpdateCpu(int registerValue, byte value, int programCounter)
+        {
+            var registerIndex = 1;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0x41,
                 value
             });
             _emulatorContext.Cpu.Registers[registerIndex] = registerValue;
