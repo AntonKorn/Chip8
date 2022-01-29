@@ -17,7 +17,8 @@ namespace Chip8.Core.CpuCommandExecutors
             var sprite = context.Ram.ReadBytes(spriteAddress, command.Size);
 
             var drawCommand = new DrawSpriteCommand(x, y, sprite.Select(i => (int)i).ToArray());
-            context.GraphicalDeviceState.DrawSprite(drawCommand);
+            var result = context.GraphicalDeviceState.DrawSprite(drawCommand);
+            context.Cpu.Registers[0xF] = result.Erased ? 0x1 : 0x0;
             Next(context);
         }
     }
