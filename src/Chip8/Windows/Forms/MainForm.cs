@@ -35,6 +35,7 @@ namespace Windows.Forms
             emulatorDisplayControl.GraphicalDeviceState = _emulatorContext.GraphicalDevice;
             cpuStackControl.Init(_emulatorContext.Cpu);
             cpuRegistersControl.Init(_emulatorContext.Cpu);
+            keyboardControl.Init(_emulatorContext.Keyboard);
 
             cpuRegistersControl.UpdateGrid();
             cpuStackControl.UpdateGrid();

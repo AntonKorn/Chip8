@@ -39,6 +39,7 @@ namespace Windows.Forms
             this.ofdRam = new System.Windows.Forms.OpenFileDialog();
             this.btnSkipUntil = new System.Windows.Forms.Button();
             this.tbUntil = new System.Windows.Forms.TextBox();
+            this.keyboardControl = new Windows.Components.KeyboardControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,11 +124,19 @@ namespace Windows.Forms
             this.tbUntil.Size = new System.Drawing.Size(150, 31);
             this.tbUntil.TabIndex = 6;
             // 
+            // keyboardControl
+            // 
+            this.keyboardControl.Location = new System.Drawing.Point(448, 741);
+            this.keyboardControl.Name = "keyboardControl";
+            this.keyboardControl.Size = new System.Drawing.Size(345, 163);
+            this.keyboardControl.TabIndex = 7;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1709, 847);
+            this.ClientSize = new System.Drawing.Size(1709, 985);
+            this.Controls.Add(this.keyboardControl);
             this.Controls.Add(this.tbUntil);
             this.Controls.Add(this.btnSkipUntil);
             this.Controls.Add(this.cpuStackControl);
@@ -156,6 +165,7 @@ namespace Windows.Forms
         private System.Windows.Forms.OpenFileDialog ofdRam;
         private System.Windows.Forms.Button btnSkipUntil;
         private System.Windows.Forms.TextBox tbUntil;
+        private Components.KeyboardControl keyboardControl;
     }
 }
 
