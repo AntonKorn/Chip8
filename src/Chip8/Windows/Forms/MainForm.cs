@@ -73,17 +73,22 @@ namespace Windows.Forms
 
         private void Run()
         {
-            var i = 0;
+            //var i = 0;
             while(_emulatorContext.Cpu.PC != _until)
             {
-                if (i % _operationsPerTick == 0)
-                {
-                    _emulatorContext.Manager.Tick();
-                    i = 0;
-                }
-                ++i;
+                _emulatorContext.Manager.Tick();
+                //if (i % _operationsPerTick == 0)
+                //{
+                //    _emulatorContext.Manager.Tick();
+                //    i = 0;
+                //}
+                //++i;
 
-                _emulatorContext.Manager.TryExecuteNext();
+                for (var i = 0; i < 3; i++)
+                {
+                    _emulatorContext.Manager.TryExecuteNext();
+                }
+
                 Invoke((Action)(() => emulatorDisplayControl.Redraw()));
                 Thread.Sleep(_delayMiliseconds);
             }
