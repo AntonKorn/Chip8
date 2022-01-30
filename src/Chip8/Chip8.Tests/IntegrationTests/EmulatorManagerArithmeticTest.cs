@@ -38,5 +38,24 @@ namespace Chip8.Tests.IntegrationTests
             Assert.AreEqual(expected, _emulatorContext.Cpu.Registers[registerNumber]);
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
+
+        [TestCase(65530, 10, 4)]
+        [TestCase(10, 10, 20)]
+        public void AddRegisterToIndexShouldUpdateCpu(int initialIndexValue, int registerValue, int expected)
+        {
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0xF1,
+                0x1E
+            });
+            var registerNumber = 1;
+            _emulatorContext.Cpu.Registers[registerNumber] = registerValue;
+            _emulatorContext.Cpu.I = initialIndexValue;
+
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(expected, _emulatorContext.Cpu.I);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+        }
     }
 }
