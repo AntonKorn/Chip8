@@ -38,6 +38,21 @@ namespace Chip8.Internal.Services
             _commandExecutorProvider = commandExecutorProvider;
         }
 
+        public void Tick()
+        {
+            ThrowIfNotInitialized();
+
+            if (_cpu.DT > 0)
+            {
+                _cpu.DT--;
+            }
+
+            if (_cpu.ST > 0)
+            {
+                _cpu.ST--;
+            }
+        }
+
         public bool TryExecuteNext()
         {
             ThrowIfNotInitialized();

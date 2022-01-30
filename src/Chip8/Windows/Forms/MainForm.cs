@@ -20,6 +20,11 @@ namespace Windows.Forms
         private EmulatorContext _emulatorContext;
         private Thread _thread;
         private int _until;
+        private int _delayMiliseconds = 1;
+        private int _ticksPerSecond;
+        private int _tickDuration;
+        private int _operationsPerTick;
+
 
         public MainForm()
         {
@@ -34,12 +39,10 @@ namespace Windows.Forms
             cpuRegistersControl.UpdateGrid();
             cpuStackControl.UpdateGrid();
 
-            //var letter = new byte[]
-            //{
-            //    0xF0, 0x80, 0xF0, 0x80, 0xF0
-            //};
-            //_emulatorContext.GraphicalDevice.DrawSprite(new DrawSpriteCommand(10, 20, letter.Select(i => (int)i).ToArray()));
-            //emulatorDisplayControl.Redraw();
+
+            _ticksPerSecond = 60;
+            _tickDuration = 1000 / _ticksPerSecond;
+            _operationsPerTick = _tickDuration / _delayMiliseconds;
         }
 
         private void tsmiOpen_Click(object sender, EventArgs e)
@@ -72,9 +75,16 @@ namespace Windows.Forms
             var i = 0;
             while(_emulatorContext.Cpu.PC != _until)
             {
+                if (i % _operationsPerTick == 0)
+                {
+                    _emulatorContext.Manager.Tick();
+                    i = 0;
+                }
+                ++i;
+
                 _emulatorContext.Manager.TryExecuteNext();
                 Invoke((Action)(() => emulatorDisplayControl.Redraw()));
-                Thread.Sleep(1);
+                Thread.Sleep(_delayMiliseconds);
             }
         }
     }

@@ -8,6 +8,7 @@ namespace Chip8.Core.Contracts
 {
     public interface IEmulationManager
     {
+        void Tick();
         void Initialize();
         void LoadRom(byte[] rom);
         bool TryExecuteNext();
