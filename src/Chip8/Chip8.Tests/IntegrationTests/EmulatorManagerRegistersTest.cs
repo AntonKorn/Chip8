@@ -83,5 +83,23 @@ namespace Chip8.Tests.IntegrationTests
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
             Assert.AreEqual(registerValue, _emulatorContext.Cpu.DT);
         }
+
+        [Test]
+        public void LoadDelayTimerIntoRegisterShouldChangeCpu()
+        {
+            var delayTimerValue = 10;
+            var registerNumber = 2;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0xF2,
+                0x07
+            });
+            _emulatorContext.Cpu.DT = delayTimerValue;
+
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(delayTimerValue, _emulatorContext.Cpu.Registers[registerNumber]);
+        }
     }
 }
