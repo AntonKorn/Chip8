@@ -17,6 +17,8 @@ namespace Windows.Components
         private const int IndexRegisterNumber = 0xF + 1;
         private const int StackPointerRegisterNumber = 0xF + 2;
         private const int ProgramCounterRegisterNumber = 0xF + 3;
+        private const int DelayTimerRegisterNumber = 0xF + 4;
+        private const int SoundTimerRegisterNumber = 0xF + 5;
 
 
         private ICpu _cpu;
@@ -43,6 +45,8 @@ namespace Windows.Components
             dgvRegisters.Rows[StackPointerRegisterNumber].Cells[1].Value = _cpu.SP.ToString("X");
             dgvRegisters.Rows[IndexRegisterNumber].Cells[1].Value = _cpu.I.ToString("X");
             dgvRegisters.Rows[ProgramCounterRegisterNumber].Cells[1].Value = _cpu.PC.ToString("X");
+            dgvRegisters.Rows[DelayTimerRegisterNumber].Cells[1].Value = _cpu.DT.ToString("X");
+            dgvRegisters.Rows[SoundTimerRegisterNumber].Cells[1].Value = _cpu.ST.ToString("X");
         }
 
         private void InitCpuRegisterRows()
@@ -58,6 +62,8 @@ namespace Windows.Components
             dgvRegisters.Rows.Add(CreateGridRow("I"));
             dgvRegisters.Rows.Add(CreateGridRow("SP"));
             dgvRegisters.Rows.Add(CreateGridRow("PC"));
+            dgvRegisters.Rows.Add(CreateGridRow("DT"));
+            dgvRegisters.Rows.Add(CreateGridRow("ST"));
         }
 
         private DataGridViewRow CreateGridRow(string registerName)

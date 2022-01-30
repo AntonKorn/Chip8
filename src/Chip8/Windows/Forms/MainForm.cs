@@ -69,11 +69,12 @@ namespace Windows.Forms
 
         private void Run()
         {
+            var i = 0;
             while(_emulatorContext.Cpu.PC != _until)
             {
                 _emulatorContext.Manager.TryExecuteNext();
                 Invoke((Action)(() => emulatorDisplayControl.Redraw()));
-                Thread.Sleep(6);
+                Thread.Sleep(1);
             }
         }
     }

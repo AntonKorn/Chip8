@@ -56,7 +56,7 @@ namespace Windows.Forms
             // 
             this.cpuRegistersControl.Location = new System.Drawing.Point(1435, 92);
             this.cpuRegistersControl.Name = "cpuRegistersControl";
-            this.cpuRegistersControl.Size = new System.Drawing.Size(253, 668);
+            this.cpuRegistersControl.Size = new System.Drawing.Size(253, 734);
             this.cpuRegistersControl.TabIndex = 1;
             // 
             // btnNext
@@ -127,7 +127,7 @@ namespace Windows.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1709, 803);
+            this.ClientSize = new System.Drawing.Size(1709, 847);
             this.Controls.Add(this.tbUntil);
             this.Controls.Add(this.btnSkipUntil);
             this.Controls.Add(this.cpuStackControl);
