@@ -73,16 +73,9 @@ namespace Windows.Forms
 
         private void Run()
         {
-            //var i = 0;
             while(_emulatorContext.Cpu.PC != _until)
             {
                 _emulatorContext.Manager.Tick();
-                //if (i % _operationsPerTick == 0)
-                //{
-                //    _emulatorContext.Manager.Tick();
-                //    i = 0;
-                //}
-                //++i;
 
                 for (var i = 0; i < 3; i++)
                 {
