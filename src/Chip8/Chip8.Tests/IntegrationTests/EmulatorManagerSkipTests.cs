@@ -54,5 +54,24 @@ namespace Chip8.Tests.IntegrationTests
 
             Assert.AreEqual(programCounter, _emulatorContext.Cpu.PC);
         }
+
+        [TestCase(10, 10, 0x202)]
+        [TestCase(10, 11, 0x204)]
+        public void SkipRegistersNotEqualShouldUpdateCpu(int firstRegisterValue, int secondRegisterValue, int expectedProgramCounter)
+        {
+            var firstRegister = 1;
+            var secondRegister = 2;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                0x91,
+                0x20
+            });
+            _emulatorContext.Cpu.Registers[firstRegister] = firstRegisterValue;
+            _emulatorContext.Cpu.Registers[secondRegister] = secondRegisterValue;
+
+            _emulatorContext.Manager.TryExecuteNext();
+
+            Assert.AreEqual(_emulatorContext.Cpu.PC, expectedProgramCounter);
+        }
     }
 }
