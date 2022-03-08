@@ -1,5 +1,6 @@
 ﻿using Chip8.Core;
 using Chip8.Internal;
+using Chip8.Tests.Helpers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -185,6 +186,29 @@ namespace Chip8.Tests.IntegrationTests
 
             _emulatorContext.Manager.TryExecuteNext();
             var actual = _emulatorContext.Cpu.Registers.Take(maxRegister + 1).Select(i => (byte)i);
+
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(0x5)]
+        [TestCase(0x6)]
+        [TestCase(0xA)]
+        public void LoadSpriteLocationIntoIndexShouldUpdateCpu(int spriteIdentifier)
+        {
+            var registerNumber = 0x5;
+            var expected = ServiceMemoryHelper.GetSprite(spriteIdentifier);
+            var spriteLength = expected.Length;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                (byte)(0xF0 | registerNumber),
+                0x29
+            });
+            _emulatorContext.Cpu.Registers[registerNumber] = spriteIdentifier;
+
+            _emulatorContext.Manager.TryExecuteNext();
+            var offset = _emulatorContext.Cpu.I;
+            var actual = _emulatorContext.Ram.ReadBytes(offset, spriteLength);
 
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
             Assert.AreEqual(expected, actual);
