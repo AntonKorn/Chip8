@@ -135,16 +135,45 @@ namespace Chip8.Tests.IntegrationTests
             var expected = _emulatorContext.Cpu.Registers.Take(maxRegister + 1).Select(i => (byte)i);
 
             _emulatorContext.Manager.TryExecuteNext();
+            var actual = _emulatorContext.Ram.ReadBytes(memoryStartLocation, maxRegister + 1);
 
-            _emulatorContext.Ram.ReadBytes(memoryStartLocation, maxRegister + 1);
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(expected, actual);
+        }
 
+        [TestCase(0x302, 120, 1, 2, 0)]
+        [TestCase(0x300, 325, 3, 2, 5)]
+        public void StoreRegisterDecimalPlacesShouldUpdateRam(
+            int memoryLocation,
+            int registerValue,
+            int hundreds,
+            int tens,
+            int ones)
+        {
+            var registerNumber = 0x4;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                (byte)(0xF0 | registerNumber),
+                0x33
+            });
+            _emulatorContext.Cpu.Registers[registerNumber] = registerValue;
+            _emulatorContext.Cpu.I = memoryLocation;
+
+            _emulatorContext.Manager.TryExecuteNext();
+            var actualHundreds = _emulatorContext.Ram.ReadByte(memoryLocation);
+            var actualTens = _emulatorContext.Ram.ReadByte(memoryLocation + 1);
+            var actualOnes = _emulatorContext.Ram.ReadByte(memoryLocation + 2);
+
+            Assert.AreEqual(hundreds, actualHundreds);
+            Assert.AreEqual(tens, actualTens);
+            Assert.AreEqual(ones, actualOnes);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
 
         private void FillRegistersWithRandomNumbers(int minRegister, int maxRegister)
         {
             var random = new Random();
-            for (var i = 0; i <= maxRegister; i++)
+            for (var i = minRegister; i <= maxRegister; i++)
             {
                 _emulatorContext.Cpu.Registers[i] = random.Next(byte.MaxValue);
             }
