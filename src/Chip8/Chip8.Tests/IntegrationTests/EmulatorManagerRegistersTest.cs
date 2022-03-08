@@ -170,6 +170,26 @@ namespace Chip8.Tests.IntegrationTests
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
         }
 
+        [TestCase(0x300, 0x2)]
+        [TestCase(0x302, 0xF)]
+        public void ReadRegistersInMemoryShouldUpdateCpu(int memoryStartLocation, int maxRegister)
+        {
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                (byte)(0xF0 | maxRegister),
+                0x65
+            });
+            FillMemoryWithRandomNumbers(memoryStartLocation, maxRegister);
+            _emulatorContext.Cpu.I = memoryStartLocation;
+            var expected = _emulatorContext.Ram.ReadBytes(memoryStartLocation, maxRegister + 1);
+
+            _emulatorContext.Manager.TryExecuteNext();
+            var actual = _emulatorContext.Cpu.Registers.Take(maxRegister + 1).Select(i => (byte)i);
+
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(expected, actual);
+        }
+
         private void FillRegistersWithRandomNumbers(int minRegister, int maxRegister)
         {
             var random = new Random();
@@ -177,6 +197,15 @@ namespace Chip8.Tests.IntegrationTests
             {
                 _emulatorContext.Cpu.Registers[i] = random.Next(byte.MaxValue);
             }
+        }
+
+        private void FillMemoryWithRandomNumbers(int offset, int length)
+        {
+            var random = new Random();
+            var bytes = new byte[length];
+            random.NextBytes(bytes);
+            var memorySpan = bytes.Select(b => (int)b).ToArray();
+            _emulatorContext.Ram.WriteBytes(offset, memorySpan);
         }
     }
 }
