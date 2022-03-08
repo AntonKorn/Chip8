@@ -214,6 +214,27 @@ namespace Chip8.Tests.IntegrationTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(0b0110110, 0b1101011)]
+        public void AndCommandShouldUpdateCpu(int x, int y)
+        {
+            var registerX = 0x1;
+            var registerY = 0xA;
+            var expected = x & y;
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                (byte)(0x80 | registerX),
+                (byte)(0x02 | registerY << 4)
+            });
+            _emulatorContext.Cpu.Registers[registerX] = x;
+            _emulatorContext.Cpu.Registers[registerY] = y;
+
+            _emulatorContext.Manager.TryExecuteNext();
+            var actual = _emulatorContext.Cpu.Registers[registerX];
+
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+            Assert.AreEqual(expected, actual);
+        }
+
         private void FillRegistersWithRandomNumbers(int minRegister, int maxRegister)
         {
             var random = new Random();
