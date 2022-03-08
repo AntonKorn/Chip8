@@ -120,5 +120,34 @@ namespace Chip8.Tests.IntegrationTests
             Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
             Assert.AreEqual(sourceValue, _emulatorContext.Cpu.Registers[destinationRegister]);
         }
+
+        [TestCase(0x300, 0x2)]
+        [TestCase(0x302, 0xF)]
+        public void StoreRegistersInMemoryShouldUpdateMemory(int memoryStartLocation, int maxRegister)
+        {
+            _emulatorContext.Manager.LoadRom(new byte[]
+            {
+                (byte)(0xF0 | maxRegister),
+                0x55
+            });
+            FillRegistersWithRandomNumbers(0, maxRegister);
+            _emulatorContext.Cpu.I = memoryStartLocation;
+            var expected = _emulatorContext.Cpu.Registers.Take(maxRegister + 1).Select(i => (byte)i);
+
+            _emulatorContext.Manager.TryExecuteNext();
+
+            _emulatorContext.Ram.ReadBytes(memoryStartLocation, maxRegister + 1);
+            Assert.AreEqual(0x202, _emulatorContext.Cpu.PC);
+
+        }
+
+        private void FillRegistersWithRandomNumbers(int minRegister, int maxRegister)
+        {
+            var random = new Random();
+            for (var i = 0; i <= maxRegister; i++)
+            {
+                _emulatorContext.Cpu.Registers[i] = random.Next(byte.MaxValue);
+            }
+        }
     }
 }
