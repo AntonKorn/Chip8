@@ -18,6 +18,5 @@ build:
 
 test:
     stage: test
-    script: 
-        - "cd src/Chip8"
+    script:
         - "dotnet test"
